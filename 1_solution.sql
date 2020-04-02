@@ -68,7 +68,9 @@ SELECT capital,name FROM world WHERE capital LIKE concat('%', name, '%');
 --14. Find the capital and the name where the capital is an extension of name of the country.
 
 SELECT name, capital FROM world WHERE capital LIKE concat('%', name, '%') AND capital > name;
+SELECT name, capital FROM world WHERE capital LIKE concat(name, '%_%');
 
 --15. Show the name and the extension where the capital is an extension of name of the country.
 
 SELECT name, REPLACE(capital, name, '') FROM world WHERE capital LIKE concat('%', name, '%') AND capital > name;
+SELECT name, REPLACE(capital, name, '') FROM world WHERE capital LIKE concat(name, '%_%');
