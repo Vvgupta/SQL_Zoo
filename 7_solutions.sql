@@ -83,5 +83,9 @@ group by movieid
 order by count(actorid) DESC, title
 
 --16. List all the people who have worked with 'Art Garfunkel'.
-SELECT name FROM (actor JOIN casting ON actorid = actor.id) JOIN movie ON movieid = movie.id WHERE movieid IN (SELECT movieid FROM  (actor JOIN casting ON actorid = actor.id) JOIN movie ON movieid = movie.id WHERE name = 'Art Garfunkel') AND name != 'Art Garfunkel';
-
+SELECT name FROM (actor JOIN casting ON actorid = actor.id) 
+JOIN movie ON movieid = movie.id 
+ WHERE  name != 'Art Garfunkel' AND movieid IN 
+(SELECT movieid FROM  actor JOIN casting ON actorid = actor.id JOIN movie ON movieid = movie.id WHERE name = 'Art Garfunkel') 
+;
+--no need to join movie table
