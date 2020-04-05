@@ -42,11 +42,22 @@ WHERE stopa.name='Haymarket' AND stopb.name='Leith';
 
 --8. Give a list of the services which connect the stops 'Craiglockhart' and 'Tollcross'
 
-SELECT DISTINCT a.company, a.num FROM route a JOIN route b ON
+SELECT DISTINCT a.company, a.num 
+FROM route a JOIN route b ON
   (a.company=b.company AND a.num=b.num)
   JOIN stops stopa ON (a.stop=stopa.id)
   JOIN stops stopb ON (b.stop=stopb.id)
-WHERE stopa.name='Craiglockhart' AND stopb.name='Tollcross'; 
+WHERE stopa.name='Craiglockhart' 
+AND stopb.name='Tollcross'; 
+
+--or
+
+SELECT distinct a.company, a.num
+FROM route a JOIN route b ON
+  (a.company=b.company AND a.num=b.num)
+JOIN stops on stops.id = a.stop
+where a.stop IN (select stops.id from stops where stops.name = 'Craiglockhart')
+and b.stop IN (select stops.id from stops where stops.name = 'Tollcross')
 
 --9. Give a distinct list of the stops which may be reached from 'Craiglockhart' by taking one bus, including 'Craiglockhart' itself, offered by the LRT company. Include the company and bus no. of the relevant services.
 
