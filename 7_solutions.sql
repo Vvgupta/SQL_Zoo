@@ -48,14 +48,23 @@ SELECT title, name FROM (actor JOIN casting ON  id = actorid) JOIN movie ON movi
 
 SELECT yr, COUNT(*) FROM (actor JOIN casting ON actorid = actor.id) JOIN movie ON movieid = movie.id WHERE name = 'John Travolta' GROUP BY yr HAVING COUNT(*) > 2;
 
---13. List the film title and the leading actor for all of the films 'Julie Andrews' played in.
+--13.(12 new) List the film title and the leading actor for all of the films 'Julie Andrews' played in.
 
-SELECT title, name
-FROM (movie JOIN casting ON movie.id=movieid) JOIN actor on actor.id=actorid
-WHERE ord=1 AND title IN(SELECT title
-FROM (movie JOIN casting ON movie.id=movieid) JOIN actor on actor.id=actorid
-WHERE name='Julie Andrews') AND movie.id IN(SELECT movie.id FROM(movie JOIN casting ON movie.id=movieid) JOIN actor on actor.id=actorid WHERE name='Julie Andrews')
-ORDER BY name;
+ select distinct title, name from movie 
+join casting on movieid= id
+join actor on actor.id= casting.actorid
+where ord = 1 And title IN (
+
+  SELECT  title FROM casting
+join actor on actor.id= casting.actorid 
+join movie on casting.movieid= movie.id
+  WHERE name='Julie Andrews' )
+and movie.id IN (
+
+  SELECT  movie.id FROM casting
+join actor on actor.id= casting.actorid 
+join movie on casting.movieid= movie.id
+  WHERE name='Julie Andrews' )
 
 --14. Obtain a list, in alphabetical order, of actors who've had at least 30 starring roles.
 
