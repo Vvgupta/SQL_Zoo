@@ -81,3 +81,32 @@ c.name = 'Craiglockhart'
 --Show the bus no. and company for the first bus, the name of the stop for the transfer, 
 --and the bus no. and company for the second bus.
 
+select T1.num fn, 
+		T1.company fc, 
+		stops.name transfer, 
+		T2.num tn, 
+		T2.company tc 
+		
+	from
+		(
+		select * from route where (num, company) IN 
+			(
+				SELECT DISTINCT num, company
+				FROM route
+				JOIN stops ON stop = id
+				WHERE name='Craiglockhart'  )) T1
+
+		JOIN
+
+		(
+		select * from route where (num, company) IN 
+			(
+				SELECT DISTINCT num, company
+				FROM route
+				JOIN stops ON stop = id
+				WHERE name='Lochend')) T2
+
+			on T1.stop = T2.stop
+
+		JOIN stops on stops.id = T1.stop
+		order by fn, fc, transfer, tn
